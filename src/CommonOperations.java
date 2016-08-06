@@ -8,7 +8,7 @@ import java.io.*;
  * Created by Akash on 03-Aug-16.
  */
 public class CommonOperations {
-
+	public static int n=0;
     public static Document connect(String url){
         String USER_AGENT =
                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.112 Safari/535.1";
@@ -39,11 +39,32 @@ public class CommonOperations {
             if(!file.exists()){
                 file.createNewFile();
             }
-            PrintWriter writer=new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF8"));
-            String words[]=bodyText.split("[ ]+");
+            PrintWriter writer=new PrintWriter(new OutputStreamWriter(new FileOutputStream(file,true), "UTF8"));
+            String words[]=bodyText.split("[;“”'\"।,!?.}\\-{‘’)–—(><+/\\\\=১২৩৪৫৬৭৮৯০ ]+");
+            
+            n+=words.length;
             for (String word:words){
                 writer.println(word);
             }
+            writer.close();
+        }
+        catch ( IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public static void writeToFile2(String bodyText,String path){
+    	try
+        {
+            File file=new File(path);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,true), "UTF8"));
+         
+            writer.append(bodyText);
+            writer.write(System.lineSeparator());
+            
             writer.close();
         }
         catch ( IOException e)
